@@ -3,8 +3,13 @@ import {Validate,ValidateAll } from '../Utils/Validate';
 import Header from './Header'
 import React from 'react'
 import { useRef, useState } from 'react'
+import { createUserWithEmailAndPassword,signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from '../Utils/firebase';
+import { useNavigate } from 'react-router-dom';
+
 const Login = () => {
  
+const navigate = useNavigate();
 const [isSigninform, setIsSigninform] = useState(true);
 const [errorMessage,seterrorMessage] = useState(null);
     const toggleSigninform = () => {
@@ -17,7 +22,7 @@ const [errorMessage,seterrorMessage] = useState(null);
    
         
       const Handlebuttonclick = () => {
-        let message = null;
+        let message;
         if(!isSigninform)
         {    
           message = ValidateAll(email.current.value, password.current.value, name.current.value);
@@ -27,6 +32,43 @@ const [errorMessage,seterrorMessage] = useState(null);
           message = Validate(email.current.value, password.current.value);
         }
         seterrorMessage(message); 
+        if(message) return;
+
+        if(!isSigninform)
+        {
+            //SIGNUP LOGIC
+            createUserWithEmailAndPassword(auth,email.current.value, password.current.value)
+            .then((userCredential) => {
+              // Signed up 
+              const user = userCredential.user;
+              console.log(user);
+              navigate("/browse");
+              // ...
+            })
+            .catch((error) => {
+              const errorCode = error.code;
+              const errorMessage = error.message;
+              seterrorMessage(errorCode + "-" + errorMessage);
+              // ..
+            });
+        }
+        else
+        {    //SIGN IN LOGIC
+            signInWithEmailAndPassword(auth,email.current.value, password.current.value)
+            .then((userCredential) => {
+              // Signed in 
+              const user = userCredential.user;
+              console.log(user);
+              navigate("/browse");
+              // ...
+            })
+            .catch((error) => {
+              const errorCode = error.code;
+              const errorMessage = error.message;
+              seterrorMessage("User Not Registered");
+            });
+
+        }
     };
     
 
