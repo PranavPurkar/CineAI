@@ -24,8 +24,8 @@ const Body = () => {
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
             if (user) {
-              const {uid, email, displayName} = user;
-              dispatch(addUser({Uid: uid, Email: email, Name: displayName}));
+              const {uid, email, displayName,photoURL} = user;
+              dispatch(addUser({Uid: uid, Email: email, Name: displayName, Photo: photoURL}));
               // ...
             } else {
               // User is signed out

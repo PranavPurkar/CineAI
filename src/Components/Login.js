@@ -3,16 +3,20 @@ import {Validate,ValidateAll } from '../Utils/Validate';
 import Header from './Header'
 import React from 'react'
 import { useRef, useState } from 'react'
-import { createUserWithEmailAndPassword,signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword,signInWithEmailAndPassword , updateProfile} from "firebase/auth";
 import { auth } from '../Utils/firebase';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { addUser} from '../Utils/userSlice';
 
 const Login = () => {
  
-const navigate = useNavigate();
-const [isSigninform, setIsSigninform] = useState(true);
-const [errorMessage,seterrorMessage] = useState(null);
-    const toggleSigninform = () => {
+      const dispatch = useDispatch();
+
+      const navigate = useNavigate();
+      const [isSigninform, setIsSigninform] = useState(true);
+      const [errorMessage,seterrorMessage] = useState(null);
+            const toggleSigninform = () => {
           setIsSigninform(!isSigninform);
     };
 
@@ -41,9 +45,15 @@ const [errorMessage,seterrorMessage] = useState(null);
             .then((userCredential) => {
               // Signed up 
               const user = userCredential.user;
-              console.log(user);
-              navigate("/browse");
-              // ...
+              updateProfile(user, {
+                displayName:name.current.value
+              }).then(() => {
+                const {uid, email, displayName,photoURL} = auth.currentUser;
+                dispatch(addUser({Uid: uid, Email: email, Name: displayName}));
+                navigate("/browse");
+              }).catch((error) => {
+                 seterrorMessage(error.message);
+              });
             })
             .catch((error) => {
               const errorCode = error.code;
