@@ -49,8 +49,13 @@ const Login = () => {
                 displayName:name.current.value
               }).then(() => {
                 const {uid, email, displayName,photoURL} = auth.currentUser;
-                dispatch(addUser({Uid: uid, Email: email, Name: displayName}));
-                navigate("/browse");
+                dispatch(
+                  addUser(
+                    {
+                      Uid: uid, 
+                      Email: email, 
+                      Name: displayName
+                  }));
               }).catch((error) => {
                  seterrorMessage(error.message);
               });
@@ -68,9 +73,6 @@ const Login = () => {
             .then((userCredential) => {
               // Signed in 
               const user = userCredential.user;
-              console.log(user);
-              navigate("/browse");
-              // ...
             })
             .catch((error) => {
               const errorCode = error.code;
