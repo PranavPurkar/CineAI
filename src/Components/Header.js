@@ -4,11 +4,13 @@ import { auth } from '../Utils/firebase';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { addUser, removeUser } from '../Utils/userSlice';
-import { LOGO, USER_ICON } from '../Utils/constants';
+import { LOGO, SUPPORTED_LANGUAGES, USER_ICON } from '../Utils/constants';
 import { toggleGptSearchView } from '../Utils/gptslice';
+import { ChangeLanguage } from '../Utils/configSlice';
 
 const Header = () => {
    
+  const GPTSearch = useSelector((store) => store.gpt.showGptSearch);
   const user = useSelector(store => store.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -29,7 +31,9 @@ const Header = () => {
       return () => unsubscribe();
 }, []);
 
-
+const handleLanguageChange = (e) => {
+   dispatch(ChangeLanguage(e.target.value));
+}
 const handleGptSearchClick = () => {
    dispatch(toggleGptSearchView());
 }
@@ -49,13 +53,22 @@ const handleGptSearchClick = () => {
           src={LOGO}
           alt='Netflix logo' />
           {user && <div className='flex'>
-              <button className='py-2 px-4 mx-4 my-2 rounded-lg bg-purple-500 text-white'
+              {GPTSearch && <select className=' py-3 px-4 mx-4 my-3 rounded-lg  bg-gray-900 text-white cursor-pointer' onChange={handleLanguageChange}>
+                  {SUPPORTED_LANGUAGES.map((lang) => (
+                    <option key={lang.identifier} value = {lang.identifier}>
+                      {lang.name}
+                      </option> 
+                    ))}
+              </select>}
+              <button className='py-2 px-4 mx-4 my-2 rounded-lg bg-purple-900 text-white'
                 onClick={handleGptSearchClick}>
-                GPT Search</button>
+                {GPTSearch ? "Home Page" : "GPT Search"}
+                </button>
               <img className='w-12 h-12 p-2 mt-2' src={USER_ICON}
               alt="user profile"/>
               <button onClick={handleSignOut} className='font-bold text-white'>(sign out)</button>
-          </div>}
+          </div>
+          }
     </div>
    
   )
