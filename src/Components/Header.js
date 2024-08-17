@@ -48,11 +48,11 @@ const handleGptSearchClick = () => {
   }
 
   return (
-    <div className=' absolute w-screen flex justify-between px-8 py-2 bg-gradient-to-b from-black z-10'> 
-          <img className='w-44'
+    <div className=' absolute w-screen flex justify-between px-8 py-2 bg-gradient-to-b from-black z-10 justify-center flex flex-col md:flex-row md:justify-between'> 
+          <img className='w-44 mx-auto md:mx-0'
           src={LOGO}
           alt='Netflix logo' />
-          {user && <div className='flex'>
+          {user && <div className='flex justify-between'>
               {GPTSearch && <select className=' py-3 px-4 mx-4 my-3 rounded-lg  bg-gray-900 text-white cursor-pointer' onChange={handleLanguageChange}>
                   {SUPPORTED_LANGUAGES.map((lang) => (
                     <option key={lang.identifier} value = {lang.identifier}>
@@ -60,13 +60,15 @@ const handleGptSearchClick = () => {
                       </option> 
                     ))}
               </select>}
-              <button className='py-2 px-4 mx-4 my-2 rounded-lg bg-purple-900 text-white'
+              <button className='py-2 px-4 justify-left md:mx-4 my-2 rounded-lg bg-purple-900 text-white'
                 onClick={handleGptSearchClick}>
                 {GPTSearch ? "Home Page" : "GPT Search"}
                 </button>
+                <div className='flex md:ml-0'>
               <img className='w-12 h-12 p-2 mt-2' src={USER_ICON}
               alt="user profile"/>
-              <button onClick={handleSignOut} className='font-bold text-white'>(sign out)</button>
+              <button onClick={handleSignOut} className='font-bold text-white'>(sign out)</button>      
+              </div>
           </div>
           }
     </div>

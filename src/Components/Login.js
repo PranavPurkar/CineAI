@@ -91,12 +91,10 @@ const Login = () => {
     <div>
     <Header/>
         <div className='absolute'>
-            <img src={BG_URL}
-            alt='Netflix bg' />
+          <img className="h-screen md:h-full object-cover" src={BG_URL}  alt='Netflix bg' />
         </div>
-    <form onSubmit={(e) => e.preventDefault()} className='w-3/12 absolute p-12 bg-black my-36 mx-auto left-0 right-0 text-white rounded-lg opacity-80'> 
-        <h1 className='font-bold text-3xl py-4'>{isSigninform ? 'Sign in' : 'Sign Up'}</h1>
-
+    <form onSubmit={(e) => e.preventDefault()} className='w-full md:w-3/12 absolute p-12 bg-black my-36 mx-auto left-0 right-0 text-white rounded-lg opacity-80'> 
+        <h1 className='font-bold text-xl md:text-3xl py-4'>{isSigninform ? 'Sign in' : 'Sign Up'}</h1>
         {!isSigninform && <input 
         ref={name}
         type='text' 
@@ -115,7 +113,7 @@ const Login = () => {
         placeholder='Password' 
         className='p-4 my-4 w-full bg-gray-700'/>
   
-        <p className='text-red-500 font-bold py-4 text-lg'>{errorMessage}</p>
+        <p className='text-red-500 font-bold py-4 text-sm md:text-lg'>{errorMessage}</p>
         <button  className='p-4 my-6 bg-red-700 w-full' onClick={Handlebuttonclick}>{isSigninform ? 'Sign in': 'Sign UP'}</button>
 
         <p className='py-4 cursor-pointer' onClick={toggleSigninform}>{!isSigninform?'Already registered? Sign-in now.':'New to Netflix? Sign-up now.'}</p>
