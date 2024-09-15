@@ -8,6 +8,7 @@ import useTopRatedMovies from '../hooks/useTopRatedMovies';
 import useUpcomingMovies from '../hooks/useUpcomingMovies';
 import GptSearchPage from './GptSearchPage';
 import { useSelector } from 'react-redux';
+import WatchPage from './WatchPage';
 
 const Browse = () => {
   
@@ -27,7 +28,6 @@ const Browse = () => {
           <SecondaryContainer/>
        </>
       }
-  
     </div>
   )
 }

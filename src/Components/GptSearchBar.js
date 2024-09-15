@@ -30,7 +30,7 @@ const GptSearchBar = () => {
       model: 'gpt-3.5-turbo',
     });
     
-    console.log(gptresults.choices?.[0]?.message?.content);
+    // console.log(gptresults.choices?.[0]?.message?.content);
 
     //This will convert the movies in array of movies.
     const gptmovies = gptresults.choices?.[0]?.message?.content.split(",");
@@ -40,7 +40,7 @@ const GptSearchBar = () => {
 
     //This will resolve the promises.
     const tmdbResults = await Promise.all(promiseArray);
-    console.log(tmdbResults);
+    // console.log(tmdbResults);
 
      //dispatching multiple parameters/actions to a single slice.
     dispatch(addGptMovieResult({movieNames: gptmovies, movieResults: tmdbResults}));
